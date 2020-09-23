@@ -28,10 +28,10 @@ l
             <tr>
 
               <th>Photo</th>
-              <th>First Name</th>
-              <th>Last Name</th>
+              <th>Name</th>
               <th>Email</th>
               <th>Phone Number</th>
+              <th>Location</th>
             </tr>
           </thead>
           <tbody>
@@ -39,10 +39,10 @@ l
           
             <tr>
              <td><img src={allemployees.picture.thumbnail}></img></td>
-              <td>{allemployees.name.first}</td>
-              <td>{allemployees.name.last}</td>
-          <td><a href={"mailto:" + allemployees.email}>{allemployees.email}</a></td>
+              <td>{allemployees.name.first + " " + allemployees.name.last }</td>
+              <td><a href={"mailto:" + allemployees.email}>{allemployees.email}</a></td>
               <td>{allemployees.phone}</td>
+          <td>{allemployees.location.city + ", "+ allemployees.location.state}</td>
               
             </tr>)}
             
