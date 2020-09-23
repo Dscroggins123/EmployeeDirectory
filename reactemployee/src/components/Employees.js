@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import API from "../utils/API";
 import Table from "react-bootstrap/Table";
+import "../styles/Employees.css";
 
 class Employees extends Component {
   state = {
@@ -20,11 +21,13 @@ l
       
     return (
       <div className="container">
-        <Table striped bordered hover>
+          <input type="text" className="input" />
+        
+        <Table striped bordered hover className="Table">
           <thead>
             <tr>
 
-             
+              <th>Photo</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
@@ -35,10 +38,10 @@ l
           {this.state.employees.map((allemployees)=>
           
             <tr>
-             
+             <td><img src={allemployees.picture.thumbnail}></img></td>
               <td>{allemployees.name.first}</td>
               <td>{allemployees.name.last}</td>
-              <td>{allemployees.email}</td>
+          <td><a href={"mailto:" + allemployees.email}>{allemployees.email}</a></td>
               <td>{allemployees.phone}</td>
               
             </tr>)}
