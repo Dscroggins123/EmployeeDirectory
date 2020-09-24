@@ -14,12 +14,21 @@ class Employees extends Component {
   };
   filteremployees = e =>{
     const value = e.target.value
-    const filteredEmployees = this.state.employees.filter(user => {
-      return user.name.first.includes(value)
+    console.log(value)
+    let filteredEmployees
+    if (value !== "") {
+    filteredEmployees = this.state.employees.filter(user => {
+      return user.name.first.toLowerCase().includes(value.toLowerCase())
       
     });
-    console.log(filteredEmployees)
-    return filteredEmployees
+    this.setState({employees: filteredEmployees})
+   }
+   else {
+     this.getUsers()
+   }
+    
+  
+    
 
   }
   
@@ -54,6 +63,7 @@ class Employees extends Component {
             </tr>
           </thead>
           <tbody>
+          
           {this.state.employees.map((allemployees)=>
           // filter this.state.employees if there is a input in the inputfield
             <tr>
