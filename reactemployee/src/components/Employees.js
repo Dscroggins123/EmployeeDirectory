@@ -12,16 +12,35 @@ class Employees extends Component {
   getUsers = () => {
     API.getEmployees().then(res => this.setState({employees: res.data.results}));
   };
+  filteremployees = e =>{
+    const value = e.target.value
+    const filteredEmployees = this.state.employees.filter(user => {
+      return user.name.first.includes(value)
+      
+    });
+    console.log(filteredEmployees)
+    return filteredEmployees
+
+  }
+  
+  
+  
   componentDidMount() {
     this.getUsers();
-  }
-l
+  };
+
   render() {
       console.log(this.state.employees)
       
     return (
       <div className="container">
-          <input type="text" className="input" />
+          <input 
+          type="text" 
+          className="input" 
+          placeholder="Search"
+          onChange={this.filteremployees}
+          
+          />
         
         <Table striped bordered hover className="Table">
           <thead>
@@ -36,11 +55,11 @@ l
           </thead>
           <tbody>
           {this.state.employees.map((allemployees)=>
-          
+          // filter this.state.employees if there is a input in the inputfield
             <tr>
-             <td><img src={allemployees.picture.thumbnail}></img></td>
+             <td><img src={allemployees.picture.thumbnail} alt="employee"></img></td>
               <td>{allemployees.name.first + " " + allemployees.name.last }</td>
-              <td><a href={"mailto:" + allemployees.email}>{allemployees.email}</a></td>
+              <td><a href={"mailto:" + allemployees.email} style={{color: "maroon"}} >{allemployees.email}</a></td>
               <td>{allemployees.phone}</td>
           <td>{allemployees.location.city + ", "+ allemployees.location.state}</td>
               
