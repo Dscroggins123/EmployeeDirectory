@@ -7,13 +7,17 @@ class Employees extends Component {
   state = {
     employees: [],
     search: "",
+    filtered:[],
+    input:""
   };
 
   getUsers = () => {
     API.getEmployees().then(res => this.setState({employees: res.data.results}));
   };
+  
   filteremployees = e =>{
     const value = e.target.value
+    this.setState({input:value})
     console.log(value)
     let filteredEmployees
     if (value !== "") {
@@ -21,16 +25,24 @@ class Employees extends Component {
       return user.name.first.toLowerCase().includes(value.toLowerCase())
       
     });
-    this.setState({employees: filteredEmployees})
-   }
-   else {
-     this.getUsers()
-   }
+    this.setState({filtered: filteredEmployees })
     
-  
-    
+   }
+   }
+   sortemployees = () => {
+    const sortedEmployees = this.state.employees.sort((a,b)=>{
+      if(a.name.first < b.name.first){
+        return -1
+      } else if (a.name.first > b.name.first){
+        return 1
+      }else {
+        return 0
+      }
+    })
+    this.setState({employees:sortedEmployees})
 
-  }
+   }
+   
   
   
   
@@ -39,8 +51,7 @@ class Employees extends Component {
   };
 
   render() {
-      console.log(this.state.employees)
-      
+      console.log(this.state.filtered)
     return (
       <div className="container">
           <input 
@@ -56,15 +67,23 @@ class Employees extends Component {
             <tr>
 
               <th>Photo</th>
-              <th>Name</th>
+              <th onClick={this.sortemployees}>Name</th>
               <th>Email</th>
               <th>Phone Number</th>
               <th>Location</th>
             </tr>
           </thead>
           <tbody>
+          {this.state.input !== "" ? this.state.filtered.map((femployees)=>
           
-          {this.state.employees.map((allemployees)=>
+            <tr>
+             <td><img src={femployees.picture.thumbnail} alt="employee"></img></td>
+              <td>{femployees.name.first + " " + femployees.name.last }</td>
+              <td><a href={"mailto:" + femployees.email} style={{color: "maroon"}} >{femployees.email}</a></td>
+              <td>{femployees.phone}</td>
+          <td>{femployees.location.city + ", "+ femployees.location.state}</td>
+              
+            </tr>) :this.state.employees.map((allemployees)=>
           // filter this.state.employees if there is a input in the inputfield
             <tr>
              <td><img src={allemployees.picture.thumbnail} alt="employee"></img></td>
@@ -74,6 +93,7 @@ class Employees extends Component {
           <td>{allemployees.location.city + ", "+ allemployees.location.state}</td>
               
             </tr>)}
+          
             
           </tbody>
         </Table>
@@ -83,37 +103,4 @@ class Employees extends Component {
 }
 
 export default Employees;
-// {
-  /* <h1>Search By Breed!</h1> */
-// }
-//       <form>
-//       <div className="form-group">
-//         <label htmlFor="search">Breed Name:</label>
-//         <input
-//           value={this.state.search}
-//           name="search"
-//           type="text"
-//           onChange={this.handleInputChange}
-//           className="form-control"
-//           placeholder="Search for a Breed"
-//           id="search"
-//           list= "breedsList"
 
-//         />
-//         <datalist id="breedsList">
-//           {this.state.breedsList.map((names)=>
-//           <option value={names} key={names}/>)}
-
-//         </datalist>
-//         <button onClick={this.dogSearch} type="submit" className="btn btn-light mt-3">
-//           Search
-//         </button>
-//         <div className="col-md-12" >{this.state.results.map((dogs)=>(
-//           <ul style={{listStyle: "none"}}>
-//           <li><img src={dogs} alt="" height="400px" width="400px"/> </li>
-//           </ul>
-//         ))}
-//         </div>
-
-//       </div>
-//     </form>
